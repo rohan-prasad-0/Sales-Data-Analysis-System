@@ -1,7 +1,5 @@
 # Sales Data Analysis System
 
-https://camo.githubusercontent.com/c1c2ed30dfeaeececda64dd5279cdacc0ab942b3c421dd1bc96b723298acb3b0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a6176612d31372d6f72616e67653f6c6f676f3d6a617661
-
 
 The Sales Data Analysis System is a comprehensive Java Swing desktop application designed for visualizing and analyzing supermarket sales data. It provides an administrative dashboard with interactive charts, summary cards, and detailed tables to derive insights from sales transactions. The application supports data loading from CSV files, user management, and generation of PDF reports for various analytical views.
 
