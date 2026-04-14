@@ -1,0 +1,816 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package ui;
+
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import db.db;
+
+
+/**
+ *
+ * @author anom
+ */
+public class BtManageUsers extends javax.swing.JPanel {
+
+    /**
+     * Creates new form BttopProducts
+     */
+    public BtManageUsers() {
+        initComponents();
+
+        
+        loadUsers();
+        loadCounts();
+        tableClick();
+        passwordToggle();
+        
+
+    }
+    
+    
+    
+    // password visibility
+    
+    private void passwordToggle() {
+
+        // Main Password
+        lblpwhidden_show.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                if (pwPassword.getEchoChar() == '•') {
+
+                    pwPassword.setEchoChar((char) 0);
+
+                    lblpwhidden_show.setIcon(
+                            new javax.swing.ImageIcon(
+                                    getClass().getResource("/icons/show.png"))
+                    );
+
+                } else {
+
+                    pwPassword.setEchoChar('•');
+
+                    lblpwhidden_show.setIcon(
+                            new javax.swing.ImageIcon(
+                                    getClass().getResource("/icons/hidden.png"))
+                    );
+                }
+            }
+        });
+
+        // Confirm Password
+        lblcpwhidden_show.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                if (pcCPassword.getEchoChar() == '•') {
+
+                    pcCPassword.setEchoChar((char) 0);
+
+                    lblcpwhidden_show.setIcon(
+                            new javax.swing.ImageIcon(
+                                    getClass().getResource("/icons/show.png"))
+                    );
+
+                } else {
+
+                    pcCPassword.setEchoChar('•');
+
+                    lblcpwhidden_show.setIcon(
+                            new javax.swing.ImageIcon(
+                                    getClass().getResource("/icons/hidden.png"))
+                    );
+                }
+            }
+        });
+    }
+
+    // load users
+    private void loadUsers() {
+
+        try {
+            DefaultTableModel model
+                    = (DefaultTableModel) tblmanageusers.getModel();
+
+            model.setRowCount(0);
+
+            Connection con = db.getConnection();
+            PreparedStatement pst
+                    = con.prepareStatement("SELECT * FROM users");
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                model.addRow(new Object[]{
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("role")
+                });
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    
+    // clear 
+    
+    private void clearFields() {
+        txtUsername.setText("");
+        pwPassword.setText("");
+        pcCPassword.setText("");
+        cmbRole.setSelectedIndex(0);
+    }
+    
+    // table click fill
+    
+    private void tableClick() {
+
+        tblmanageusers.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                int row = tblmanageusers.getSelectedRow();
+
+                txtUsername.setText(
+                        tblmanageusers.getValueAt(row, 0).toString());
+
+                pwPassword.setText(
+                        tblmanageusers.getValueAt(row, 1).toString());
+
+                pcCPassword.setText(
+                        tblmanageusers.getValueAt(row, 1).toString());
+
+                cmbRole.setSelectedItem(
+                        tblmanageusers.getValueAt(row, 2).toString());
+            }
+        });
+    }
+    
+    // cound cards
+    
+    private void loadCounts() {
+
+        try {
+            Connection con = db.getConnection();
+
+            PreparedStatement pst1
+                    = con.prepareStatement("SELECT COUNT(*) FROM users");
+            ResultSet rs1 = pst1.executeQuery();
+            if (rs1.next()) {
+                lblTotalusersvalue.setText(rs1.getString(1));
+            }
+
+            PreparedStatement pst2
+                    = con.prepareStatement(
+                            "SELECT COUNT(*) FROM users WHERE role='Admin'");
+            ResultSet rs2 = pst2.executeQuery();
+            if (rs2.next()) {
+                lblTotalAdminValue.setText(rs2.getString(1));
+            }
+
+            PreparedStatement pst3
+                    = con.prepareStatement(
+                            "SELECT COUNT(*) FROM users WHERE role='Staff'");
+            ResultSet rs3 = pst3.executeQuery();
+            if (rs3.next()) {
+                lblTotalStaffValue.setText(rs3.getString(1));
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        centerPanel = new javax.swing.JPanel();
+        topContainer = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        filtersPanel = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        tablePanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblmanageusers = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        chartPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        pwPassword = new javax.swing.JPasswordField();
+        pcCPassword = new javax.swing.JPasswordField();
+        cmbRole = new javax.swing.JComboBox<>();
+        lblpwhidden_show = new javax.swing.JLabel();
+        lblcpwhidden_show = new javax.swing.JLabel();
+        btnaddusers = new javax.swing.JButton();
+        btnupdateusers = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        btndeleteusers = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        btnclear = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        lblTotalusers = new javax.swing.JLabel();
+        lblTotalusersvalue = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lblTotalAdmin = new javax.swing.JLabel();
+        lblTotalAdminValue = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lblTotalStaff = new javax.swing.JLabel();
+        lblTotalStaffValue = new javax.swing.JLabel();
+
+        setPreferredSize(new java.awt.Dimension(940, 700));
+
+        topContainer.setLayout(new javax.swing.BoxLayout(topContainer, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel3.setBackground(new java.awt.Color(15, 23, 42));
+
+        jLabel1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(229, 231, 235));
+        jLabel1.setText("Manage Users");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(391, 391, 391)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(442, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        topContainer.add(jPanel3);
+
+        filtersPanel.setBackground(new java.awt.Color(102, 102, 102));
+        filtersPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        filtersPanel.add(jLabel4);
+
+        txtSearch.setMinimumSize(new java.awt.Dimension(300, 28));
+        txtSearch.setPreferredSize(new java.awt.Dimension(300, 28));
+        filtersPanel.add(txtSearch);
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(this::btnSearchActionPerformed);
+        filtersPanel.add(btnSearch);
+
+        btnReset.setText("Reset");
+        btnReset.addActionListener(this::btnResetActionPerformed);
+        filtersPanel.add(btnReset);
+
+        topContainer.add(filtersPanel);
+
+        tablePanel.setLayout(new java.awt.BorderLayout());
+
+        tblmanageusers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Username", "Password", "Role"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblmanageusers);
+
+        tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jLabel2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        jLabel2.setText("Manage Users");
+        tablePanel.add(jLabel2, java.awt.BorderLayout.PAGE_END);
+
+        chartPanel.setBackground(new java.awt.Color(102, 102, 102));
+        chartPanel.setPreferredSize(new java.awt.Dimension(0, 250));
+        chartPanel.setLayout(null);
+
+        jLabel3.setText("Username");
+        chartPanel.add(jLabel3);
+        jLabel3.setBounds(20, 30, 62, 18);
+
+        jLabel5.setText("Password");
+        chartPanel.add(jLabel5);
+        jLabel5.setBounds(20, 70, 58, 18);
+
+        jLabel6.setText("Confirm Password");
+        chartPanel.add(jLabel6);
+        jLabel6.setBounds(20, 100, 109, 18);
+
+        jLabel7.setText("Role");
+        chartPanel.add(jLabel7);
+        jLabel7.setBounds(20, 130, 26, 18);
+        chartPanel.add(txtUsername);
+        txtUsername.setBounds(170, 30, 136, 28);
+        chartPanel.add(pwPassword);
+        pwPassword.setBounds(170, 60, 136, 28);
+        chartPanel.add(pcCPassword);
+        pcCPassword.setBounds(170, 90, 136, 28);
+
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Staff" }));
+        chartPanel.add(cmbRole);
+        cmbRole.setBounds(170, 120, 130, 28);
+
+        lblpwhidden_show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hidden.png"))); // NOI18N
+        chartPanel.add(lblpwhidden_show);
+        lblpwhidden_show.setBounds(310, 60, 24, 28);
+
+        lblcpwhidden_show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hidden.png"))); // NOI18N
+        chartPanel.add(lblcpwhidden_show);
+        lblcpwhidden_show.setBounds(310, 90, 24, 28);
+
+        btnaddusers.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        btnaddusers.setText("Add User");
+        btnaddusers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnaddusersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnaddusersMouseExited(evt);
+            }
+        });
+        btnaddusers.addActionListener(this::btnaddusersActionPerformed);
+        chartPanel.add(btnaddusers);
+        btnaddusers.setBounds(60, 180, 96, 30);
+
+        btnupdateusers.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        btnupdateusers.setText("Update User");
+        btnupdateusers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnupdateusersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnupdateusersMouseExited(evt);
+            }
+        });
+        btnupdateusers.addActionListener(this::btnupdateusersActionPerformed);
+        chartPanel.add(btnupdateusers);
+        btnupdateusers.setBounds(210, 180, 118, 30);
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add_user.png"))); // NOI18N
+        chartPanel.add(jLabel11);
+        jLabel11.setBounds(10, 180, 40, 28);
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        chartPanel.add(jLabel12);
+        jLabel12.setBounds(160, 180, 40, 28);
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
+        chartPanel.add(jLabel13);
+        jLabel13.setBounds(330, 180, 40, 28);
+
+        btndeleteusers.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        btndeleteusers.setText(" Delete User");
+        btndeleteusers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btndeleteusersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btndeleteusersMouseExited(evt);
+            }
+        });
+        btndeleteusers.addActionListener(this::btndeleteusersActionPerformed);
+        chartPanel.add(btndeleteusers);
+        btndeleteusers.setBounds(370, 180, 116, 30);
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/clear.png"))); // NOI18N
+        chartPanel.add(jLabel14);
+        jLabel14.setBounds(490, 180, 40, 28);
+
+        btnclear.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        btnclear.setText("Clear");
+        btnclear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnclearMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnclearMouseExited(evt);
+            }
+        });
+        btnclear.addActionListener(this::btnclearActionPerformed);
+        chartPanel.add(btnclear);
+        btnclear.setBounds(530, 180, 76, 30);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTotalusers.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalusers.setText("Total Users :");
+
+        lblTotalusersvalue.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalusersvalue.setText("0");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lblTotalusers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblTotalusersvalue)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotalusers)
+                    .addComponent(lblTotalusersvalue))
+                .addContainerGap())
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTotalAdmin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalAdmin.setText("Admins :");
+
+        lblTotalAdminValue.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalAdminValue.setText("0");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lblTotalAdmin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTotalAdminValue)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotalAdmin)
+                    .addComponent(lblTotalAdminValue))
+                .addContainerGap())
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblTotalStaff.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalStaff.setText("Staff :");
+
+        lblTotalStaffValue.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblTotalStaffValue.setText("0");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(lblTotalStaff)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTotalStaffValue)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotalStaff)
+                    .addComponent(lblTotalStaffValue))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        chartPanel.add(jPanel5);
+        jPanel5.setBounds(707, 17, 160, 130);
+
+        javax.swing.GroupLayout centerPanelLayout = new javax.swing.GroupLayout(centerPanel);
+        centerPanel.setLayout(centerPanelLayout);
+        centerPanelLayout.setHorizontalGroup(
+            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(topContainer, javax.swing.GroupLayout.PREFERRED_SIZE, 940, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 940, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 940, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        centerPanelLayout.setVerticalGroup(
+            centerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(centerPanelLayout.createSequentialGroup()
+                .addComponent(topContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(chartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(centerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnaddusersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddusersActionPerformed
+        // TODO add your handling code here:
+
+        String username = txtUsername.getText();
+        String pass = String.valueOf(pwPassword.getPassword());
+        String cpass = String.valueOf(pcCPassword.getPassword());
+        String role = cmbRole.getSelectedItem().toString();
+
+        if (username.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fill all fields");
+            return;
+        }
+
+        if (!pass.equals(cpass)) {
+            JOptionPane.showMessageDialog(this, "Passwords not match");
+            return;
+        }
+
+        try {
+            Connection con = db.getConnection();
+
+            PreparedStatement pst
+                    = con.prepareStatement(
+                            "INSERT INTO users(username,password,role) VALUES(?,?,?)");
+
+            pst.setString(1, username);
+            pst.setString(2, pass);
+            pst.setString(3, role);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "User Added");
+
+            clearFields();
+            loadUsers();
+            loadCounts();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnaddusersActionPerformed
+
+    private void btnupdateusersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateusersActionPerformed
+        // TODO add your handling code here:
+
+        String username = txtUsername.getText();
+        String pass = String.valueOf(pwPassword.getPassword());
+        String role = cmbRole.getSelectedItem().toString();
+
+        try {
+            Connection con = db.getConnection();
+
+            PreparedStatement pst
+                    = con.prepareStatement(
+                            "UPDATE users SET password=?, role=? WHERE username=?");
+
+            pst.setString(1, pass);
+            pst.setString(2, role);
+            pst.setString(3, username);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Updated");
+
+            loadUsers();
+            loadCounts();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnupdateusersActionPerformed
+
+    private void btndeleteusersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteusersActionPerformed
+        // TODO add your handling code here:
+
+        String username = txtUsername.getText();
+
+        int x = JOptionPane.showConfirmDialog(
+                this,
+                "Delete user?",
+                "Confirm",
+                JOptionPane.YES_NO_OPTION);
+
+        if (x != 0) {
+            return;
+        }
+
+        try {
+            Connection con = db.getConnection();
+
+            PreparedStatement pst
+                    = con.prepareStatement(
+                            "DELETE FROM users WHERE username=?");
+
+            pst.setString(1, username);
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Deleted");
+
+            clearFields();
+            loadUsers();
+            loadCounts();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btndeleteusersActionPerformed
+
+    private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
+        // TODO add your handling code here:
+        clearFields();
+    }//GEN-LAST:event_btnclearActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        
+        String search = txtSearch.getText();
+
+        try {
+            DefaultTableModel model
+                    = (DefaultTableModel) tblmanageusers.getModel();
+
+            model.setRowCount(0);
+
+            Connection con = db.getConnection();
+
+            PreparedStatement pst
+                    = con.prepareStatement(
+                            "SELECT * FROM users WHERE username LIKE ?");
+
+            pst.setString(1, "%" + search + "%");
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("role")
+                });
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        
+        txtSearch.setText("");
+        loadUsers();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnaddusersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnaddusersMouseEntered
+        // TODO add your handling code here:
+        
+        btnaddusers.setBackground(new java.awt.Color(34,197,94));
+    }//GEN-LAST:event_btnaddusersMouseEntered
+
+    private void btnaddusersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnaddusersMouseExited
+        // TODO add your handling code here:
+        btnaddusers.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btnaddusersMouseExited
+
+    private void btnupdateusersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnupdateusersMouseEntered
+        // TODO add your handling code here:
+        btnupdateusers.setBackground(new java.awt.Color(59,130,246));
+    }//GEN-LAST:event_btnupdateusersMouseEntered
+
+    private void btnupdateusersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnupdateusersMouseExited
+        // TODO add your handling code here:
+        btnupdateusers.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btnupdateusersMouseExited
+
+    private void btndeleteusersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btndeleteusersMouseEntered
+        // TODO add your handling code here:
+        btndeleteusers.setBackground(new java.awt.Color(239,68,68));
+    }//GEN-LAST:event_btndeleteusersMouseEntered
+
+    private void btndeleteusersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btndeleteusersMouseExited
+        // TODO add your handling code here:
+        btndeleteusers.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btndeleteusersMouseExited
+
+    private void btnclearMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnclearMouseEntered
+        // TODO add your handling code here:
+        btnclear.setBackground(new java.awt.Color(245,158,11));
+    }//GEN-LAST:event_btnclearMouseEntered
+
+    private void btnclearMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnclearMouseExited
+        // TODO add your handling code here:
+        btnclear.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btnclearMouseExited
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnaddusers;
+    private javax.swing.JButton btnclear;
+    private javax.swing.JButton btndeleteusers;
+    private javax.swing.JButton btnupdateusers;
+    private javax.swing.JPanel centerPanel;
+    private javax.swing.JPanel chartPanel;
+    private javax.swing.JComboBox<String> cmbRole;
+    private javax.swing.JPanel filtersPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTotalAdmin;
+    private javax.swing.JLabel lblTotalAdminValue;
+    private javax.swing.JLabel lblTotalStaff;
+    private javax.swing.JLabel lblTotalStaffValue;
+    private javax.swing.JLabel lblTotalusers;
+    private javax.swing.JLabel lblTotalusersvalue;
+    private javax.swing.JLabel lblcpwhidden_show;
+    private javax.swing.JLabel lblpwhidden_show;
+    private javax.swing.JPasswordField pcCPassword;
+    private javax.swing.JPasswordField pwPassword;
+    private javax.swing.JPanel tablePanel;
+    private javax.swing.JTable tblmanageusers;
+    private javax.swing.JPanel topContainer;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtUsername;
+    // End of variables declaration//GEN-END:variables
+}
