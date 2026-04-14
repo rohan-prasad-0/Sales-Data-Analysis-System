@@ -49,7 +49,6 @@ public class login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         cbhRememberme = new javax.swing.JCheckBox();
-        lblForgotpassword = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -133,12 +132,6 @@ public class login extends javax.swing.JFrame {
         cbhRememberme.setText("Remember Me");
         jPanel8.add(cbhRememberme, java.awt.BorderLayout.WEST);
 
-        lblForgotpassword.setBackground(new java.awt.Color(153, 153, 255));
-        lblForgotpassword.setFont(new java.awt.Font("SansSerif", 0, 13)); // NOI18N
-        lblForgotpassword.setText("Forgot Password");
-        jPanel8.add(lblForgotpassword, java.awt.BorderLayout.EAST);
-        lblForgotpassword.getAccessibleContext().setAccessibleName("jLable5");
-
         jPanel4.add(jPanel8);
 
         jPanel2.add(jPanel4);
@@ -195,27 +188,55 @@ public class login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
 
-        String username = txtUsername.getText();
-        String password = pwdPassword.getText();
+        String username = txtUsername.getText().trim();
+        String password = String.valueOf(pwdPassword.getPassword()).trim();
 
         try {
-            Connection con;
-            PreparedStatement pst;
+            Connection con = db.getConnection();
 
-            con = db.getConnection();
-            String query = "SELECT name, password FROM user WHERE name = ? AND password = ? ";
-            pst = con.prepareStatement(query);
+            String query = "SELECT username, password, role FROM users WHERE username = ? AND password = ?";
+
+            PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, username);
             pst.setString(2, password);
 
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    this.dispose();
-                    admin_dashboard pro = new admin_dashboard();
-                    pro.setVisible(true);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                String role = rs.getString("role");
+
+                this.dispose();
+
+                if (role.equalsIgnoreCase("admin")) {
+
+                    new admin_dashboard().setVisible(true);
+
+                } else if (role.equalsIgnoreCase("staff")) {
+
+                    new staff_dashboard().setVisible(true);
+
+                } else {
+
+                    javax.swing.JOptionPane.showMessageDialog(
+                            this,
+                            "Unknown Role!",
+                            "Error",
+                            javax.swing.JOptionPane.ERROR_MESSAGE
+                    );
                 }
+
+            } else {
+
+                javax.swing.JOptionPane.showMessageDialog(
+                        this,
+                        "Invalid Username or Password",
+                        "Login Failed",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                );
             }
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -251,7 +272,6 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JLabel lblForgotpassword;
     private javax.swing.JPasswordField pwdPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
