@@ -48,7 +48,6 @@ public class login extends javax.swing.JFrame {
         pwdPassword = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        cbhRememberme = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -128,10 +127,6 @@ public class login extends javax.swing.JFrame {
 
         jPanel8.setPreferredSize(new java.awt.Dimension(300, 20));
         jPanel8.setLayout(new java.awt.BorderLayout());
-
-        cbhRememberme.setText("Remember Me");
-        jPanel8.add(cbhRememberme, java.awt.BorderLayout.WEST);
-
         jPanel4.add(jPanel8);
 
         jPanel2.add(jPanel4);
@@ -258,7 +253,6 @@ public class login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JCheckBox cbhRememberme;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
