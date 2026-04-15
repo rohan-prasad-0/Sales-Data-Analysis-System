@@ -75,30 +75,36 @@ public class BttopProducts extends javax.swing.JPanel {
     // Load Top 10 Products Chart + Table
     private void loadChart() {
 
+        // Dataset for JFreeChart
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+        // Get table model and clear existing rows
         DefaultTableModel model
                 = (DefaultTableModel) tbltopsellingproduct.getModel();
         model.setRowCount(0);
 
         try (Connection con = db.getConnection()) {
 
+            // Get selected filter values from UI
             String selectedPeriod = cmbPeriod.getSelectedItem().toString();
             String selectedRegion = cmbRegion.getSelectedItem().toString();
             String chartType = cmbChartType.getSelectedItem().toString();
 
+            // Base SQL query
             StringBuilder sql = new StringBuilder("""
-            SELECT product_id, product_name,
-                   SUM(quantity) AS total_quantity,
-                   SUM(total_price) AS total_revenue
-            FROM sales
-            WHERE 1=1
+        SELECT product_id, product_name,
+               SUM(quantity) AS total_quantity,
+               SUM(total_price) AS total_revenue
+        FROM sales
+        WHERE 1=1
         """);
 
+            // Apply region filter if not "All"
             if (!selectedRegion.equals("All")) {
                 sql.append(" AND region = ? ");
             }
 
+            // Apply date filter based on selected period
             switch (selectedPeriod) {
 
                 case "Today" ->
@@ -119,25 +125,30 @@ public class BttopProducts extends javax.swing.JPanel {
                     sql.append(" AND DATE(date) BETWEEN ? AND ? ");
             }
 
+            // Group, sort, and limit results to top 10 products
             sql.append("""
-            GROUP BY product_id, product_name
-            ORDER BY total_quantity DESC
-            LIMIT 10
+        GROUP BY product_id, product_name
+        ORDER BY total_quantity DESC
+        LIMIT 10
         """);
 
+            // Prepare statement
             PreparedStatement pst = con.prepareStatement(sql.toString());
 
             int paramIndex = 1;
 
+            // Set region parameter if needed
             if (!selectedRegion.equals("All")) {
                 pst.setString(paramIndex++, selectedRegion);
             }
 
+            // Handle custom date range parameters
             if (selectedPeriod.equals("Custom Range")) {
 
                 java.util.Date fromDate = dchFrom.getDate();
                 java.util.Date toDate = dchTo.getDate();
 
+                // Validate dates
                 if (fromDate == null || toDate == null) {
                     return;
                 }
@@ -148,14 +159,17 @@ public class BttopProducts extends javax.swing.JPanel {
                     return;
                 }
 
+                // Set date parameters
                 pst.setDate(paramIndex++, new java.sql.Date(fromDate.getTime()));
                 pst.setDate(paramIndex++, new java.sql.Date(toDate.getTime()));
             }
 
+            // Execute query
             ResultSet rs = pst.executeQuery();
 
             int rank = 1;
 
+            // Process result set
             while (rs.next()) {
 
                 int productId = rs.getInt("product_id");
@@ -163,6 +177,7 @@ public class BttopProducts extends javax.swing.JPanel {
                 int totalQty = rs.getInt("total_quantity");
                 double totalRevenue = rs.getDouble("total_revenue");
 
+                // Add row to table
                 model.addRow(new Object[]{
                     rank++,
                     productId,
@@ -171,11 +186,13 @@ public class BttopProducts extends javax.swing.JPanel {
                     totalRevenue
                 });
 
+                // Add data to chart dataset
                 dataset.addValue(totalQty, "Quantity", productName);
             }
 
             JFreeChart chart;
 
+            // Create chart based on selected type
             if (chartType.equals("Bar Chart")) {
 
                 chart = ChartFactory.createBarChart(
@@ -199,15 +216,18 @@ public class BttopProducts extends javax.swing.JPanel {
                 );
             }
 
+            // Create chart panel and enable zooming
             ChartPanel cp = new ChartPanel(chart);
             cp.setMouseWheelEnabled(true);
 
+            // Refresh chart panel UI
             chartPanel.removeAll();
             chartPanel.add(cp, BorderLayout.CENTER);
             chartPanel.revalidate();
             chartPanel.repaint();
 
         } catch (Exception e) {
+            // Handle errors
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,
                     "Error loading data: " + e.getMessage());
