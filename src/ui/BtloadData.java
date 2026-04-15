@@ -18,9 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.print.PrinterException;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  *
@@ -37,27 +34,42 @@ public class BtloadData extends javax.swing.JPanel {
         initComponents();
     }
     
+    // Stores loaded CSV data
     private List<readcsv> loadedData;
 
+// Opens file chooser and loads CSV file
     private void loadCSV() {
 
+        // Open file chooser dialog
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
 
+        // If user selects a file
         if (result == fileChooser.APPROVE_OPTION) {
+
+            // Get selected file
             File selectedFile = fileChooser.getSelectedFile();
+
+            // Load CSV data into list
             loadedData = loadData.Loadcsv(selectedFile);
-            //System.out.println("Size" + loadedData.size());
+
+            // Display loaded data in table
             displayDataInTable(loadedData);
         }
     }
 
+// Displays CSV data in JTable
     private void displayDataInTable(List<readcsv> dataList) {
 
+        // Get table model and clear existing rows
         DefaultTableModel model = (DefaultTableModel) tblLoadData.getModel();
         model.setRowCount(0);
+
+        // Loop through data list and add rows to table
         for (int i = 0; i < dataList.size(); i++) {
+
             readcsv row = dataList.get(i);
+
             model.addRow(new Object[]{
                 row.getTra_id(),
                 row.getC_id(),
@@ -72,17 +84,29 @@ public class BtloadData extends javax.swing.JPanel {
         }
     }
 
+// Saves table data into database
     public void saveData() {
+
         try {
+            // Get database connection
             Connection con = db.getConnection();
+
+            // Disable auto-commit for batch processing
             con.setAutoCommit(false);
+
+            // SQL insert query
             String query = "INSERT INTO sales (transaction_id, customer_id, product_id, product_name, quantity, priceper_unit, date, total_price, region) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(query);
 
+            // Get table model
             DefaultTableModel model = (DefaultTableModel) tblLoadData.getModel();
+
             double total = 0;
 
+            // Loop through table rows
             for (int i = 0; i < model.getRowCount(); i++) {
+
+                // Extract values from table
                 int tra_id = Integer.parseInt(model.getValueAt(i, 0).toString());
                 int c_id = Integer.parseInt(model.getValueAt(i, 1).toString());
                 int p_id = Integer.parseInt(model.getValueAt(i, 2).toString());
@@ -93,8 +117,10 @@ public class BtloadData extends javax.swing.JPanel {
                 double price = Double.parseDouble(model.getValueAt(i, 7).toString());
                 String region = model.getValueAt(i, 8).toString();
 
+                // Accumulate total (optional usage)
                 total += price;
 
+                // Set query parameters
                 pst.setInt(1, tra_id);
                 pst.setInt(2, c_id);
                 pst.setInt(3, p_id);
@@ -105,14 +131,22 @@ public class BtloadData extends javax.swing.JPanel {
                 pst.setDouble(8, price);
                 pst.setString(9, region);
 
+                // Add to batch
                 pst.addBatch();
             }
 
+            // Execute batch insert
             pst.executeBatch();
+
+            // Commit transaction
             con.commit();
 
+            // Success message
             JOptionPane.showMessageDialog(null, "Data saved successfully!");
+
         } catch (SQLException e) {
+
+            // Handle database errors
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
         }
