@@ -4,10 +4,7 @@
  */
 package ui;
 
-import java.awt.print.PrinterException;
-import java.text.MessageFormat;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +19,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import java.io.*;
 import java.awt.Desktop;
 import javax.swing.JFileChooser;
