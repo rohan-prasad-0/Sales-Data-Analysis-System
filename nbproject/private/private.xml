@@ -5,6 +5,12 @@
         <group>
             <file>file:/home/anom/NetBeansProjects/food_city/src/ui/login.java</file>
             <file>file:/home/anom/NetBeansProjects/food_city/src/ui/admin_dashboard.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/src/ui/BtRegionalSales.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/src/ui/BtManageUsers.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/src/ui/BtProductTrends.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/src/ui/AuthService.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/test/ui/loginTest.java</file>
+            <file>file:/home/anom/NetBeansProjects/food_city/test/ui/admin_dashboardTest.java</file>
         </group>
     </open-files>
 </project-private>

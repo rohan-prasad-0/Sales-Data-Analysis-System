@@ -8,7 +8,6 @@ import db.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**
@@ -24,7 +23,7 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
-        
+
     }
 
     /**
@@ -240,8 +239,6 @@ public class login extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-
     public static void main(String[] args) {
         FlatLightLaf.setup();
 
