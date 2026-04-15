@@ -28,67 +28,12 @@ public class BtManageUsers extends javax.swing.JPanel {
         loadUsers();
         loadCounts();
         tableClick();
-        passwordToggle();
+       
         
 
     }
     
     
-    
-    // password visibility
-    
-    private void passwordToggle() {
-
-        // Main Password
-        lblpwhidden_show.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-
-                if (pwPassword.getEchoChar() == '•') {
-
-                    pwPassword.setEchoChar((char) 0);
-
-                    lblpwhidden_show.setIcon(
-                            new javax.swing.ImageIcon(
-                                    getClass().getResource("/icons/show.png"))
-                    );
-
-                } else {
-
-                    pwPassword.setEchoChar('•');
-
-                    lblpwhidden_show.setIcon(
-                            new javax.swing.ImageIcon(
-                                    getClass().getResource("/icons/hidden.png"))
-                    );
-                }
-            }
-        });
-
-        // Confirm Password
-        lblcpwhidden_show.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-
-                if (pcCPassword.getEchoChar() == '•') {
-
-                    pcCPassword.setEchoChar((char) 0);
-
-                    lblcpwhidden_show.setIcon(
-                            new javax.swing.ImageIcon(
-                                    getClass().getResource("/icons/show.png"))
-                    );
-
-                } else {
-
-                    pcCPassword.setEchoChar('•');
-
-                    lblcpwhidden_show.setIcon(
-                            new javax.swing.ImageIcon(
-                                    getClass().getResource("/icons/hidden.png"))
-                    );
-                }
-            }
-        });
-    }
 
     // load users
     private void loadUsers() {
@@ -223,8 +168,6 @@ public class BtManageUsers extends javax.swing.JPanel {
         pwPassword = new javax.swing.JPasswordField();
         pcCPassword = new javax.swing.JPasswordField();
         cmbRole = new javax.swing.JComboBox<>();
-        lblpwhidden_show = new javax.swing.JLabel();
-        lblcpwhidden_show = new javax.swing.JLabel();
         btnaddusers = new javax.swing.JButton();
         btnupdateusers = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -348,14 +291,6 @@ public class BtManageUsers extends javax.swing.JPanel {
         cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Staff" }));
         chartPanel.add(cmbRole);
         cmbRole.setBounds(170, 120, 130, 28);
-
-        lblpwhidden_show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hidden.png"))); // NOI18N
-        chartPanel.add(lblpwhidden_show);
-        lblpwhidden_show.setBounds(310, 60, 24, 28);
-
-        lblcpwhidden_show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hidden.png"))); // NOI18N
-        chartPanel.add(lblcpwhidden_show);
-        lblcpwhidden_show.setBounds(310, 90, 24, 28);
 
         btnaddusers.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         btnaddusers.setText("Add User");
@@ -803,8 +738,6 @@ public class BtManageUsers extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotalStaffValue;
     private javax.swing.JLabel lblTotalusers;
     private javax.swing.JLabel lblTotalusersvalue;
-    private javax.swing.JLabel lblcpwhidden_show;
-    private javax.swing.JLabel lblpwhidden_show;
     private javax.swing.JPasswordField pcCPassword;
     private javax.swing.JPasswordField pwPassword;
     private javax.swing.JPanel tablePanel;
